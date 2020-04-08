@@ -16,35 +16,34 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home </a>
-        </li>
-        <li class="nav-item active">
-          <% if (req.session.username != undefined) {%>
-          <a class="nav-link" style="color: black;" href="File/view">File</a>
-          <% } %>
-        </li>
-        <li class="nav-item active">
-          <% if (req.session.username == undefined) { %>
-          <a class="nav-link" style="text-align:right; color: black;" href="/user/login">(Login)</a>
-          <% } %>
-        </li>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home </a>
+          </li>
+          <li class="nav-item active">
+            <% if (req.session.username != undefined) {%>
+            <a class="nav-link" style="color: black;" href="/file/view">File</a>
+            <% } %>
+          </li>
+          <li class="nav-item active">
+            <% if (req.session.username == undefined) { %>
+            <a class="nav-link" style="text-align:right; color: black;" href="/user/login">(Login)</a>
+            <% } %>
+          </li>
 
-      </ul>    
-      <span class="navbar-item">
-        <% if (req.session.username != undefined) {%>
+        </ul>
+        <span class="navbar-item">
+          <% if (req.session.username != undefined) {%>
           Hi, <%= req.session.username %>
           <% } %>
-      </span>
-    </div>
+        </span>
+      </div>
 
     </nav>
+
+    <%- body%>
   </div>
 
-
-
-  <%- body%>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
