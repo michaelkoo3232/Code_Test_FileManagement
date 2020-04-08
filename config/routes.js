@@ -11,10 +11,10 @@
 module.exports.routes = {
 
   '/user/login': {view: 'user/login'},
-  'GET /user/login': {view: 'user/login'},
+ 
   'POST /user/login': 'UserController.login',
   'POST /user/logout': 'UserController.logout',
-  '/': { view: 'pages/hi' },
+  '/': { view: 'pages/homepage' },
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` your home page.            *

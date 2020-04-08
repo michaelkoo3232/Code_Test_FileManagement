@@ -7,7 +7,7 @@
 
 module.exports = {
     login: async function (req, res) {
-        
+    
         if (!req.body.username || !req.body.password) return res.badRequest();
     
         var user = await User.findOne({ username: req.body.username });
@@ -25,7 +25,7 @@ module.exports = {
     
             sails.log("[Session] ", req.session);
             
-            return res.alert("Login successfully.");
+            return res.ok("Login successfully.");
     
         });
     
