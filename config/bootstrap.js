@@ -27,4 +27,18 @@ module.exports.bootstrap = async function() {
   // ]);
   // ```
 
+  
+
+if (await User.count() == 0) {
+
+    await User.createEach([
+      { username: "admin", password: "123456" },
+      { username: "boss", password: "123456" }
+      // etc.
+    ]);
+
+}
+
+return;
+
 };
