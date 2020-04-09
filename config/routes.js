@@ -16,12 +16,19 @@ module.exports.routes = {
 
 
 //for file upload delete upload and download upload
-'/file/upload': {view:'file/upload'},
+'/file/uploading': {view:'file/upload'},
 'POST /file/upload': 'FileController.upload',
 
 
 //homepage 
   '/': { view: 'pages/homepage' },
+
+
+  //for the association
+  'GET /person/:id/worksFor': 'PersonController.populate',
+  'GET /user/:id/supervises': 'UserController.populate',
+  'POST /user/:id/supervises/add/:fk': 'UserController.add',
+  'POST /user/:id/supervises/remove/:fk': 'UserController.remove',
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` your home page.            *

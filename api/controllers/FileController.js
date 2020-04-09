@@ -18,21 +18,36 @@ module.exports = {
             '</form>'
         )
     },
-    upload: function (req, res) {
-        req.file('file').upload({
-            // don't allow the total upload size to exceed ~100MB
-            maxBytes: 100000000,
-            // set the directory
-            dirname: '../../assets/images'
-        }), function (err, uploadedFile) {
-            // if error negotiate
-            if (err) return res.negotiate(err);
-            // logging the filename
-            console.log(uploadedFile.filename);
-            // send ok response
-            return res.ok();
-        }
-      }
+    // upload: function (req, res) {
+    //     var username = req.session.username;
+       
+    //     req.file('upload').upload({
+    //         // don't allow the total upload size to exceed ~10MB
+    //         maxBytes: 10000000
+    //     }, function whenDone(err, uploadedFiles) {
+    //         if (err) {
+    //             return res.serverError(err);
+    //         }
+
+    //         // If no files were uploaded, respond with an error.
+    //         if (uploadedFiles.length === 0) {
+    //             return res.badRequest('No file was uploaded');
+    //         }
+    //         sails.log("upload files", uploadedFiles);
+    //     });
+    // }
+
+    upload: function (req, res){
+
+        req.file('file').upload(function(err,file){
+            if (err)console.log(err);
+            res.json(file);
+
+        })
+
+
+    },
+
 
 
 };

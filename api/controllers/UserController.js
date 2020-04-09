@@ -31,6 +31,19 @@ module.exports = {
     
     },
 
+
+    signup: async function (req,res){
+
+        if(!req.body.User)
+            return res.badRequest("Form data not received");
+
+            await User.create(req.body.User);
+
+            return res.ok("User successfully");
+
+    },
+
+
     logout: async function (req, res) {
 
         req.session.destroy(function (err) {
