@@ -15,9 +15,11 @@ module.exports = {
     filename : {
       type:"string"
     },
-
-   
-
+    
+    path : {
+      type:"string"
+    },
+    
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
@@ -27,10 +29,10 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
     
-      belong:{
-        collection:"User",
-        via : 'own'
-      },
+    owners: {
+      collection: 'User',
+      via: 'files'
+    }
 
 
   },

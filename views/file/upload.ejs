@@ -1,8 +1,33 @@
-<form action="/file/upload" enctype="multipart/form-data" method="post">
+<form action="/file/upload" enctype="multipart/form-data" method="post" onsubmit="submitupload(this);return false">
     <div class="form-group">
         <input type="file" name="file">
 
     </div>
-    <input type="submit" value="submit" />
+    <button type="submit" class="btn btn-primary">upload</button>
 </form>
 
+<script>
+    async function submitupload(oFormElement) {
+
+        var response = await fetch(oFormElement.action, {
+            method: oFormElement.method,
+            credentials: 'same-origin',
+            body: new FormData(oFormElement),
+        });
+
+        if (response.ok) {
+              // for res.ok() or res.json()
+            alert("upload suceesful");
+            location.href= "/file/view"
+            
+        } else if (response.status == 401) {
+            var data = await response.text();   // for res.send()
+            alert(data);
+        } else {
+            alert(response.statusText);
+        }
+        
+
+    };
+
+</script>

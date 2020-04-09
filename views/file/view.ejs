@@ -1,0 +1,39 @@
+<table class="table ">
+    <thead>
+        <tr>
+            <th scope="col">File Name</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% p.forEach( function(model) { %>
+        <tr>
+
+            <td><%=model.filename %></td>
+          
+            <td><button type="button" class="btn btn-danger btn-sm "
+                    onclick="fileDelete('<%= model.id %>')">delete</button>
+                <a href="/file/download/<%= model.id %>">download</a>
+            </td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+
+<script>
+    async function fileDelete(id) {
+        var response = await fetch("/file/" + id, {
+            method: "DELETE",
+            credentials: 'same-origin',
+        });
+        if (response.ok) {
+            alert("delete sucessful");
+            location.reload(true);
+
+        }
+
+    };
+
+
+
+</script>

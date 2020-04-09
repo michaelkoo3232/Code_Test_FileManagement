@@ -4,58 +4,72 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
+var fs = require('fs');
 module.exports = {
 
-    index: function (req, res) {
-
-        res.writeHead(200, { 'content-type': 'text/html' });
-        res.end(
-            '<form action="http://localhost:1337/file/upload" enctype="multipart/form-data" method="post">' +
-            '<input type="text" name="title"><br>' +
-            '<input type="file" name="avatar" multiple="multiple"><br>' +
-            '<input type="submit" value="Upload">' +
-            '</form>'
-        )
-    },
-    // upload: function (req, res) {
-    //     var username = req.session.username;
-
-    //     req.file('upload').upload({
-    //         // don't allow the total upload size to exceed ~10MB
-    //         maxBytes: 10000000
-    //     }, function whenDone(err, uploadedFiles) {
-    //         if (err) {
-    //             return res.serverError(err);
-    //         }
-
-    //         // If no files were uploaded, respond with an error.
-    //         if (uploadedFiles.length === 0) {
-    //             return res.badRequest('No file was uploaded');
-    //         }
-    //         sails.log("upload files", uploadedFiles);
-    //     });
-    // }
-
-    upload: async  function (req, res) {
-        var username = req.session.username;
-       
-        var file =  req.file("file");
+    upload: async function (req, res) {
+        username = req.session.username;
+        var file = req.file("file");
         file.upload(
-        {
-            dirname: '../../assets/' + username
+            {
+                dirname: '../../assets/' + username
 
-        },
-        async function (err, uploadedfile) {
-            if (err) console.log(err);
-            sails.log(uploadedfile[0].filename);
-            var createdFile = await File.create({filename: uploadedfile[0].filename}).fetch();
-            sails.log('Finn\'s id is:', createdFile.filename);
-            return res.ok("uploaded successfully");
-         })
-       
+            },
+            async function (err, uploadedfile) {
+                if (err) console.log(err);
+                sails.log(uploadedfile);
+                var createdFile = await File.create({ filename: uploadedfile[0].filename, path: uploadedfile[0].fd }).fetch();
+                sails.log('uploaded file:', createdFile);
+                await User.addToCollection(req.session.userID, 'files', createdFile.id)
+                var userfile = await User.find({ id: req.session.userID }).populate("files");
+                sails.log(userfile);
+                sails.log(createdFile);
+                return res.ok("uploaded successfully");
+            })
+
 
     },
 
-};
+    download: async function (req, res) {
+        sails.log("enter to donwload function");
+        var realFile = await File.find({ id: req.params.id });
+        var file = realFile[0];
+        sails.log(file.filename);
+        path = file.path; 
+        var SkipperDisk = require('skipper-disk');
+        var fileAdapter = SkipperDisk(/* optional opts */);
+        res.set("Content-disposition", "attachment; filename=" + file.filename );
+        fileAdapter.read(path).on('error', function (err) {
+          return res.serverError(err);
+        }).pipe(res);
+      },
 
+    delete: async function (req, res) {
+
+        if (req.method == "GET") return res.forbidden();
+        var realFile = await File.find({ id: req.params.id });
+        var path = realFile[0];
+        path = path.path; 
+        fs.unlinkSync(path, function (err) {
+            if (err) throw err;
+            sails.log('file deleted');
+        });
+
+        var models = await File.destroy(req.params.id).fetch();
+
+        if (models.length == 0) return res.notFound();
+
+        return res.redirect("/")
+
+
+    },
+
+    view: async function (req, res) {
+
+        const models = await User.findOne({ id: req.session.userID }).populate("files");
+
+        return res.view('file/view', { 'p': models.files });
+    },
+
+
+}
