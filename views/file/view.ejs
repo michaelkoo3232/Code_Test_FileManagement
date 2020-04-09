@@ -13,7 +13,8 @@
           
             <td><button type="button" class="btn btn-danger btn-sm "
                     onclick="fileDelete('<%= model.id %>')">delete</button>
-                <a href="/file/download/<%= model.id %>">download</a>
+                <a class="btn btn-danger btn-sm" href="/file/rename/<%=model.id %>" roel="button">rename </a>
+                <a class="btn btn-danger btn-sm " href="/file/download/<%= model.id %>" role ="button">download</a>
             </td>
         </tr>
         <% }); %>
@@ -33,7 +34,4 @@
         }
 
     };
-
-
-
 </script>

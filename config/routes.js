@@ -20,6 +20,8 @@ module.exports.routes = {
 'POST /file/upload': 'FileController.upload',
 'DELETE /file/:id' : 'FileController.delete',
 '/file/download/:id' : 'FileController.download',
+'GET /file/rename/:id' : 'FileController.rename',
+'POST /file/rename/:id' : 'FileController.rename',
 //viewing files
 '/file/view': 'FileController.view',
 
