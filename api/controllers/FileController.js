@@ -20,7 +20,7 @@ module.exports = {
     },
     // upload: function (req, res) {
     //     var username = req.session.username;
-       
+
     //     req.file('upload').upload({
     //         // don't allow the total upload size to exceed ~10MB
     //         maxBytes: 10000000
@@ -37,18 +37,25 @@ module.exports = {
     //     });
     // }
 
-    upload: function (req, res){
+    upload: async  function (req, res) {
+        var username = req.session.username;
+       
+        var file =  req.file("file");
+        file.upload(
+        {
+            dirname: '../../assets/' + username
 
-        req.file('file').upload(function(err,file){
-            if (err)console.log(err);
-            res.json(file);
-
-        })
-
+        },
+        async function (err, uploadedfile) {
+            if (err) console.log(err);
+            sails.log(uploadedfile[0].filename);
+            var createdFile = await File.create({filename: uploadedfile[0].filename}).fetch();
+            sails.log('Finn\'s id is:', createdFile.filename);
+            return res.ok("uploaded successfully");
+         })
+       
 
     },
-
-
 
 };
 

@@ -16,10 +16,7 @@ module.exports = {
       type:"string"
     },
 
-    fileid :{
-      type:"string"
-
-    },
+   
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
