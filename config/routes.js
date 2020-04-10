@@ -12,8 +12,8 @@ module.exports.routes = {
 //for user login and logout 
   '/user/login': {view: 'user/login'},
   'POST /user/login': 'UserController.login',
-  'POST /user/logout': 'UserController.logout',
-
+  'DELETE /logout': 'UserController.logout',
+  
 
 //for file upload delete upload and download upload
 '/file/upload': {view:'file/upload'},

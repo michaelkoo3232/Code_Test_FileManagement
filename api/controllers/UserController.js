@@ -32,6 +32,16 @@ module.exports = {
         });
     
     },
+    logout: async function (req, res) {
+
+        req.session.destroy(function (err) {
+
+            if (err) return res.serverError(err);
+
+            return res.redirect("/");
+
+        });
+    },
 
 
     signup: async function (req,res){
