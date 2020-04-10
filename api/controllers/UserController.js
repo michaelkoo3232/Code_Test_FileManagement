@@ -14,8 +14,9 @@ module.exports = {
     
         if (!user) return res.status(401).send("User not found");
     
-        if (user.password != req.body.password) 
-            return res.status(401).send("Wrong Password");
+        const match = await sails.bcrypt.compare(req.body.password, user.password);
+          
+        if (!match) return res.status(401).send("Wrong Password");
     
         req.session.regenerate(function (err) {
     
