@@ -18,8 +18,12 @@ module.exports = {
     
     path : {
       type:"string"
+    },  
+    contributers:{
+      type:"string"
+
+
     },
-    
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
@@ -32,9 +36,13 @@ module.exports = {
     owners: {
       collection: 'User',
       via: 'files'
-    }
+    },
 
-
+  //   contributers: {
+  //     collections: 'User',
+  //     via:'sharefiles'
+  // }
+  
   },
 
 };

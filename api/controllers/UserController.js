@@ -45,27 +45,18 @@ module.exports = {
 
 
     signup: async function (req,res){
-
-        if(!req.body.User)
-            return res.badRequest("Form data not received");
-
-            await User.create(req.body.User);
-
-            return res.ok("User successfully");
-
+       var samename = await User.findOne(req.body.username);
+       if(samename){
+        return  res.status(401).send("username already in used");
+       }else{
+        sails.bcrypt = require('bcryptjs');
+        const saltRounds = 10;
+        var  hash = await sails.bcrypt.hash(req.body.password, saltRounds);
+        await User.create({username: req.body.username, password:hash});
+        return res.ok();
+       }
     },
 
-
-    logout: async function (req, res) {
-
-        req.session.destroy(function (err) {
-        
-            if (err) return res.serverError(err);
-            
-            return res.ok("Log out successfully.");
-            
-        });
-    },
 
     
 

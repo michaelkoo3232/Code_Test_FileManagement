@@ -12,6 +12,8 @@ module.exports = {
         var file = req.file("file");
         file.upload(
             {
+                adapter: require('skipper-gridfs'),
+                uri: 'mongodb://127.0.0.1:27017/admin',
                 dirname: '../../assets/' + username
 
             },
@@ -33,7 +35,7 @@ module.exports = {
         if (req.method == "GET") {
 
             sails.log('rename file:' + model[0].filename);
-            return res.view('file/rename', { file:model[0] })
+            return res.view('file/rename', { file: model[0] })
 
         } else {
             sails.log("renaming file");
@@ -50,31 +52,50 @@ module.exports = {
 
     },
 
+    share: async function (req, res) {
+        sails.log("file share to :");
+        if(req.method=="GET"){
+            const model = await File.find({contributers: req.session.username});
+
+            return res.view('file/shareFiles',{'p': model})
+        }
+        var shareUser = await User.findOne({ username: req.params.username });
+       sails.log(shareUser);
+        var originalfile = await File.findOne({id: req.params.id});
+        await File.update(req.params.id).set({
+            filename: originalfile.filename, 
+            path : originalfile.path,
+            contributers : shareUser.username 
+                })
+
+                return res.ok();
+    },
+
     download: async function (req, res) {
-        sails.log("enter to donwload function");
+        var blobAdapter = require('skipper-gridfs')({
+            uri: 'mongodb://localhost:27017/admin'
+        });
+
         var realFile = await File.find({ id: req.params.id });
         var file = realFile[0];
-        sails.log(file.filename);
-        path = file.path;
-        var SkipperDisk = require('skipper-disk');
-        var fileAdapter = SkipperDisk(/* optional opts */);
-        res.set("Content-disposition", "attachment; filename=" + file.filename);
-        fileAdapter.read(path).on('error', function (err) {
-            return res.serverError(err);
-        }).pipe(res);
+        fd = file.path;
+        var gushingStream = blobAdapter.read(fd);
+        res.set("Content-disposition", "attachment; filename=" + file.filename)
+        return gushingStream.pipe(res);
     },
 
     delete: async function (req, res) {
 
         if (req.method == "GET") return res.forbidden();
+        var blobAdapter = require('skipper-gridfs')({
+            uri: 'mongodb://localhost:27017/admin'
+        });
+
         var realFile = await File.find({ id: req.params.id });
         var path = realFile[0];
         path = path.path;
-        fs.unlinkSync(path, function (err) {
-            if (err) throw err;
-            sails.log('file deleted');
-        });
-
+        var fd = path; 
+        blobAdapter.rm(fd);
         var models = await File.destroy(req.params.id).fetch();
 
         if (models.length == 0) return res.notFound();

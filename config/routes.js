@@ -13,7 +13,8 @@ module.exports.routes = {
   '/user/login': {view: 'user/login'},
   'POST /user/login': 'UserController.login',
   'DELETE /logout': 'UserController.logout',
-  
+  '/user/signup': {view: 'user/signup'},
+  'POST /user/signup': 'UserController.signup',
 
 //for file upload delete upload and download upload
 '/file/upload': {view:'file/upload'},
@@ -22,6 +23,9 @@ module.exports.routes = {
 '/file/download/:id' : 'FileController.download',
 'GET /file/rename/:id' : 'FileController.rename',
 'POST /file/rename/:id' : 'FileController.rename',
+'POST /file/:id/:username' : 'FileController.share',
+'/file/shareFiles': 'FileController.share',
+
 //viewing files
 '/file/view': 'FileController.view',
 

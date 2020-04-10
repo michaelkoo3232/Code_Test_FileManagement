@@ -15,6 +15,7 @@
                     onclick="fileDelete('<%= model.id %>')">delete</button>
                 <a class="btn btn-danger btn-sm" href="/file/rename/<%=model.id %>" roel="button">rename </a>
                 <a class="btn btn-danger btn-sm " href="/file/download/<%= model.id %>" role ="button">download</a>
+                <button  class="btn btn-danger btn-sm "  type ="button" onclick="fileShare('<%= model.id %>')">share</button>
             </td>
         </tr>
         <% }); %>
@@ -34,4 +35,18 @@
         }
 
     };
+    async function fileShare(id){
+        var shareuser = prompt("share to: ");
+        var response = await fetch("/file/"+id+"/"+shareuser,{
+            method: "POST",
+            credentials:'same-origin',
+
+        }); if (response.ok){
+            alert ("shared");
+            location.reload(true);
+        }
+
+
+
+    }
 </script>

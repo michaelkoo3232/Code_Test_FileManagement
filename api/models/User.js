@@ -32,8 +32,13 @@ module.exports = {
     files: {
       collection: 'File',
       via: 'owners'
-    }
+    },
+    // sharefiles:{
+    //   collection: "File",
+    //   via: "contributers"
 
+    // }
+   
   },
 
 };
