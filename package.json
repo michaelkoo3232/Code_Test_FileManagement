@@ -10,6 +10,7 @@
     "@sailshq/socket.io-redis": "^5.2.0",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "2.0.3",
+    "cross-env": "^7.0.2",
     "grunt": "1.0.4",
     "lodash": "^4.17.15",
     "sails": "^1.2.4",
@@ -24,7 +25,8 @@
     "eslint": "5.16.0"
   },
   "scripts": {
-    "start": "NODE_ENV=production node app.js",
+   
+    "start": "sails lift" ,
     "test": "npm run lint && npm run custom-tests && echo 'Done.'",
     "lint": "./node_modules/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo"

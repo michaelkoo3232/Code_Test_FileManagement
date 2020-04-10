@@ -246,7 +246,8 @@ module.exports = {
   ***************************************************************************/
   sockets: {
     onlyAllowOrigins: [
-      'https://localhost',"https://fathomless-springs-96983.herokuapp.com"
+      "https://fathomless-springs-96983.herokuapp.com/",
+      
     ],
 
     /***************************************************************************
