@@ -10,6 +10,7 @@ This project is linked with local mongoDB system, make sure you have install mon
 
 Please start your local mongoDB server before using this system.  
 
+The data in this system will save to your admin file in your mongoDB database.
 ```
 Mongod
 ```
